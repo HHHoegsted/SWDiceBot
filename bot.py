@@ -23,15 +23,17 @@ async def foo(ctx):
 async def credit(ctx):
     await ctx.send('Coded 2020 by TureniDK')
 
-@bot.command(aliases = ['dice'])
+@bot.command()
 async def roll(ctx, *args):
     cmd = ''
     if len(args) > 1:
         cmd = args[1]
     dice = args[0]
     number, sides = dice.split('d')
+    if number == '':
+        number = 1
     if sides == '1':
-        await ctx.send('En 1-sidet terning? Virkelig?')
+        await ctx.send('1-sided die? really')
         return
     result = ''
     total = 0
@@ -39,7 +41,7 @@ async def roll(ctx, *args):
         dice = d.rollExplode(int(sides))
         total += sum(dice)
         result += 'Dice {}: \t\t\t'.format(i+1) + str(sum(dice)) + ' ' + str(dice)+'\n'
-    if cmd == 'wild':
+    if cmd.lower() == 'wild':
         wild = d.rollExplode(6)
         result += 'Wild: \t'+str(sum(wild)) + ' ' + str(wild)
     else:
@@ -47,17 +49,32 @@ async def roll(ctx, *args):
     await ctx.send(result)
 
 @bot.command()
-async def toHit(ctx, *args):
+async def shooting(ctx, *args):
     dice = args[0]
     number, sides = dice.split('d')
     if sides == '1':
-        await ctx.send('En 1-sidet terning? Virkelig?')
+        await ctx.send('1-sided die? Really?')
         return
     result = ''
     for i in range(int(number)):
         result += 'Dice {}\t\t'.format(i+1) + d.toHit(int(sides)) + '\n'
     result += 'Wild: \t\t' + d.toHit(6)
     await ctx.send(result)
+
+@bot.command()
+async def targetNumber(ctx, args):
+    target = args[0]
+    dice = args[1]
+    number, sides = dice.split('d')
+    if sides == 1:
+        await ctx.send('1-sided die? Really?')
+        return
+    result = ''
+    for i in range(int(number)):
+        result += 'Dice {}\t\t'.format(i+1) + d.toHitTarget(int(sides), target) + '\n'
+    result += 'Wild: \t\t' + d.toHitTarget(6, target)
+    await ctx.send(result)
+
 
 bot.run(token)
 

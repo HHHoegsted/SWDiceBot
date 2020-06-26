@@ -26,3 +26,13 @@ class Dice:
             return 'hit   {} {}'.format(sum(roll), roll)
         return 'miss   {} {}'.format(sum(roll), roll)
 
+    def toHitTarget(self, sides, target):
+        roll = self.rollExplode(sides)
+        if sum(roll) >= target+8:
+            return 'hit with raise and +1    {} {}'.format(sum(roll), roll)
+        if sum(roll) >= target+4:
+            return 'hit with raise    {} {}'.format(sum(roll),roll)
+        if sum(roll) >= target:
+            return 'hit    {} {}'.format(sum(roll), roll)
+        return 'miss    {} {}'. format(sum(roll), roll)
+
