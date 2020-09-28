@@ -2,9 +2,7 @@ from discord.ext import commands
 from Dice import Dice
 
 def get_token():
-    with open("token.txt", "r") as f:
-        lines = f.readlines()
-        return lines[0].strip()
+    return os.environ['DISC_KEY']
 
 
 token = get_token()
