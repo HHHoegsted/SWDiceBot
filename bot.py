@@ -1,5 +1,6 @@
 from discord.ext import commands
 from Dice import Dice
+import os
 
 def get_token():
     return os.environ['DISC_KEY']
